@@ -6,22 +6,14 @@ import type { User, Provider } from '@supabase/supabase-js'
 const user = ref<User>()
 
 supabase.auth.onAuthStateChange((event, session) => {
-
-   console.log(event, session)
-
-   console.log(session?.user)
    user.value = session?.user ?? undefined
 })
 
 async function handleLogin(provider: Provider) {
    try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-         provider,
-      })
+      const { error } = await supabase.auth.signInWithOAuth({ provider })
 
       if (error) throw error
-
-      console.log('data', data)
 
    } catch (error) {
       if (error instanceof Error) {
